@@ -11,7 +11,8 @@ begin
     gem.homepage = "http://github.com/apolzin/grafff"
     gem.authors = ["Alexander Polzin"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_runtime_dependency "httparty", ">= 0"
+		# gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
