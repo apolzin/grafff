@@ -65,6 +65,24 @@ for example if you would want to login the facebook user and ask him for the per
     <%= render_login_button_extended(["email"])
   <% end %>
 
+you can also just render the javascript functions, if you want to call them yourself via  a link or flash.
+for the login:
+  <%= render_login_js %>
+this will give you this javascript function:
+  facebook_login();
+
+or if you want to prompt the user for additional permissions:
+  <%= render_permission_js("publish_stream") %>
+this will give you a javascript function with a name like
+  facebook_permission_permission_name
+so in this case
+  facebook_permission_publish_stream()
+
+if the user is logged in (which he/she should be) the permission function only pops up with the permission form... otherwise it would log the user in first, too
+
+
+
+
 
 == Todo
 

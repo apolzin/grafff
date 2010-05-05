@@ -23,7 +23,6 @@ module Grafff
       end
       return_hash= {}
       work_hash = {}
-      reference_string = ""
       challenge_response = ""
       cookie.split("&").each do |split|
         value = split.split("=")
@@ -33,7 +32,6 @@ module Grafff
           cleaned_value = value[1].gsub(/\"/,"")
           return_hash[value[0].gsub(/\"/,"").to_sym] = cleaned_value
           work_hash[value[0]] = "=" + cleaned_value
-          reference_string << "#{value[0]}=#{cleaned_value}"
         end
       end
       work_hash = work_hash.sort.to_s.gsub(/\"/,"")
