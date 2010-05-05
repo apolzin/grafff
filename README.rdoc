@@ -10,7 +10,7 @@ clone the repository
 build the gem 
   gem build graff.gemspec
 install the gemgem (this will also install httparty and all it´s dependencies if you don´t have that installed already)
-  install grafff-0.0.1.gem
+  gem install grafff-0.0.1.gem
 
 == Usage
 
