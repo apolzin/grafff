@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{grafff}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alexander Polzin"]
   s.date = %q{2010-05-05}
-  s.description = %q{a small rails plugin that wraps facebook connect and the new facebook graph api}
+  s.description = %q{TODO: longer description of your gem}
   s.email = %q{alexander@girls.io}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "grafff.gemspec",
      "lib/facebook_user.rb",
      "lib/grafff.rb",
      "lib/grafff_controller.rb",
