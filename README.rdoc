@@ -2,6 +2,77 @@
 
 grafff is a small rails plugin that wraps facebook connect (with the new extended permission handling) and the new facebook graph api. 
 
+
+== Installation
+
+clone the repository  
+  git clone http://github.com/apolzin/grafff.git
+build the gem 
+  gem build graff.gemspec
+install the gemgem (this will also install httparty and all it´s dependencies if you don´t have that installed already)
+  install grafff-0.0.1.gem
+
+== Usage
+
+in your environment.rb put
+   Rails::Initializer.run do |config|
+     config.gem "grafff"
+
+you will need to create two constants
+  FACEBOOK_API_KEY
+  FACEBOOK_SECRET
+
+these can be either hashes (for international apps that require different facebook apps for different locales) or strings
+
+if you only use one facebook app
+  FACEBOOK_API_KEY = 'yourfacebookapikeyhere'
+  FACEBOOK_SECRET = 'yourfacebooksecrethere'
+
+if you use multiple facebook apps
+  FACEBOOK_API_KEY = {
+  	"en-US" => 'yourfacebookapikeyhere',
+	"en-GB" => 'yourfacebookapikeyhere'
+  }
+  FACEBOOK_SECRET = {
+  	"en-US" => 'yourfacebooksecrethere',
+	"en-GB" => 'yourfacebooksecrethere'
+  }
+
+if you use multiple facebook apps you will also need to have the variable @locale available to grafff which needs to hold the locale as a string. (e.g. "en-US")
+this can be done with a before filter for example. just make sure you use the before filter before you use the grafff before filter
+(this behaviour is likely to change soon because it´s pretty clumsy the way it is)
+
+now you can use
+  before_filter :require_facebook_user
+in all the controllers you want to access the facebook user
+
+this will give you the instance variable @facebook_user which is either nil or contains a FacebookUser. See
+  lib/facebook_user.rb
+for what methods are available there
+
+examples:
+  @facebook_user.name
+would give you the name and
+  @facebook_user.picture
+would give you the url to the profile picture
+
+there are also some view helpers which handle the login process for you (those will be greatly enhanced rather soon)
+for example if you would want to login the facebook user and ask him for the permission to see his/her email, your view would look something like this
+  <% if @facebook_user %>
+    #do something with your logged in facebook user
+  <% else %>
+    #show the login screen with the extended permissions to the user
+    <%= render_login_button_extended(["email"])
+  <% end %>
+
+
+== Todo
+
+* change the way api key and api secret and the @locale variable are handled for multiple facebook apps to something sane
+* add more view helpers (e.g. helpers to individually request permissions)
+* implement all the remaining graph api calls
+* implement 'manual' api call
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
