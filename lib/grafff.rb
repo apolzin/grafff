@@ -34,9 +34,21 @@ end
 
 require 'cgi'
 require 'digest/md5'
-require 'uri'
+require 'open-uri'
 
 require 'grafff/client'
 require 'grafff/record'
 require 'grafff/user'
 # TODO require 'grafff/user/photo'
+
+if defined? Crack
+  Grafff::Record.decode('text/javascript') do |d|
+    Crack::JSON.decode(d).inject({}) { |m, (k, v)| m.update k.to_sym => v }
+  end
+elsif defined? Yajl
+  parser = Yajl::Parser.new
+
+  Grafff::Record.decode('text/javascript') do |d|
+    parser.decode(d).inject({}) { |m, (k, v)| m.update k.to_sym => v }
+  end
+end
