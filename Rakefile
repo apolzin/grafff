@@ -5,14 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "grafff"
-    gem.summary = %Q{grafff, a small rails plugin that wraps facebook connect and the facebook graph api}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{grafff wraps around Facebooks Graph API.}
+    gem.description = %Q{}
     gem.email = "alexander@girls.io"
     gem.homepage = "http://github.com/apolzin/grafff"
-    gem.authors = ["Alexander Polzin"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    gem.add_runtime_dependency "httparty", ">= 0"
-		# gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.authors = ["Alexander Polzin", "Florian Aßmann"]
+    gem.add_development_dependency "crack", ">= 0"
+    gem.add_development_dependency "riot", ">= 0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
