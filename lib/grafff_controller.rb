@@ -44,8 +44,8 @@ module Grafff
     def facebook_credentials
       if FACEBOOK_API_KEY.is_a?(Hash)
         {
-          :api_key => FACEBOOK_API_KEY[@locale || "en-US"],
-          :secret => FACEBOOK_SECRET[@locale || "en-US"]
+          :api_key => FACEBOOK_API_KEY[@grafff_locale || "en-US"],
+          :secret => FACEBOOK_SECRET[@grafff_locale || "en-US"]
         }
       else
         {
