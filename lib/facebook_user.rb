@@ -59,8 +59,9 @@ class FacebookUser
   end
   def get_profile_pictures
     unless @user_profile_pictures
-      @user_profile_aid = FacebookRequest.new.get_profile_aid(self.access_token, self.uid)[0]["aid"]
-      @user_profile_pictures = FacebookRequest.new.get_profile_pictures(self.access_token,@user_profile_aid)
+      @user_profile_aid = FacebookRequest.new.get_profile_aid(self.access_token, self.uid)
+      #@user_profile_pictures = FacebookRequest.new.get_profile_pictures(self.access_token,@user_profile_aid)
+      @user_profile_pictures = @user_profile_aid
     end
     return @user_profile_pictures
   end
@@ -81,7 +82,9 @@ class FacebookRequest
   end
   def get_profile_aid(access_token,user_id)
     query = "SELECT aid FROM album WHERE owner = #{user_id} AND type = 'profile'"
-    self.class.get("https://api.facebook.com/method/fql.query?access_token=#{CGI.escape(access_token)}&query=#{CGI.escape(query)}&format=json")
+    aid = self.class.get("https://api.facebook.com/method/fql.query?access_token=#{CGI.escape(access_token)}&query=#{CGI.escape(query)}&format=json")[0]["aid"]
+    image_query = "SELECT src_small, src_big FROM photo where aid = '#{aid}'"
+    self.class.get("https://api.facebook.com/method/fql.query?access_token=#{CGI.escape(access_token)}&query=#{CGI.escape(image_query)}&format=json")
   end
   def get_profile_pictures(access_token,user_aid)
     self.class.get("https://graph.facebook.com/#{user_aid}?access_token=#{CGI.escape(access_token)}")
