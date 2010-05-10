@@ -72,7 +72,7 @@ class FacebookRequest
   require 'httparty'
   include HTTParty
   def get_userdata(access_token)
-    self.class.get("https://graph.facebook.com/me?access_token=#{CGI.escape(access_token)}")
+    self.class.get("https://graph.facebook.com/me?access_token=#{CGI.escape(access_token)}&locale=en_US")
   end
   def get_userpicture(access_token)
     self.class.get("https://graph.facebook.com/me/photo?access_token=#{CGI.escape(access_token)}")
