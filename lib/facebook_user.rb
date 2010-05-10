@@ -21,11 +21,17 @@ class FacebookUser
   def updated_time
     get_attributes["updated_time"]
   end
+  def gender
+    get_attributes["gender"]
+  end
   def email
     get_attributes["email"]
   end
   def picture
     picture_square
+  end
+  def albums
+    get_albums
   end
   def picture_large
     "https://graph.facebook.com/#{self.uid}/picture?type=large"
@@ -42,6 +48,22 @@ class FacebookUser
     end
     return @cached_attributes
   end
+  def get_albums
+    unless @user_albums
+      @user_albums = FacebookRequest.new.get_albums(self.access_token)
+    end
+    return @user_albums
+  end
+  def profile_pictures
+    get_profile_pictures
+  end
+  def get_profile_pictures
+    unless @user_profile_pictures
+      @user_profile_aid = FacebookRequest.new.get_profile_aid(self.access_token, self.uid)[0]["aid"]
+      @user_profile_pictures = FacebookRequest.new.get_profile_pictures(self.access_token,@user_profile_aid)
+    end
+    return @user_profile_pictures
+  end
 end
 
 class FacebookRequest
@@ -53,5 +75,15 @@ class FacebookRequest
   end
   def get_userpicture(access_token)
     self.class.get("https://graph.facebook.com/me/photo?access_token=#{CGI.escape(access_token)}")
+  end
+  def get_albums(access_token)
+    self.class.get("https://graph.facebook.com/me/albums?access_token=#{CGI.escape(access_token)}&metadata=1")
+  end
+  def get_profile_aid(access_token,user_id)
+    query = "SELECT aid FROM album WHERE owner = #{user_id} AND type = 'profile'"
+    self.class.get("https://api.facebook.com/method/fql.query?access_token=#{CGI.escape(access_token)}&query=#{CGI.escape(query)}&format=json")
+  end
+  def get_profile_pictures(access_token,user_aid)
+    self.class.get("https://graph.facebook.com/#{user_aid}?access_token=#{CGI.escape(access_token)}")
   end
 end

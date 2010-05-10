@@ -41,7 +41,12 @@ EOT
       html_js % [facebook_credentials[:api_key], permissions.join(",")]
     end
     def write_fb_init
-    	"FB.init({appId: '%s', status: true, cookie: true, xfbml: true});"
+      html_js = <<-EOT
+<script type="text/javascript">
+      FB.init({appId: '%s', status: true, cookie: true, xfbml: true});
+</script>
+EOT
+      html_js % [facebook_credentials[:api_key]]
     end
     def render_login_js(permissions=[])
        html_js = <<-EOT
