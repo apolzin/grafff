@@ -18,9 +18,12 @@ module Grafff
     def extract_fb_info
       key = facebook_credentials[:api_key]
       secret = facebook_credentials[:secret]
-      unless cookie = request.cookies["fbs_#{key}"]
+      if request.cookies["fbs_#{key}"].blank?
         return nil
+      else
+        cookie = request.cookies["fbs_#{key}"]
       end
+
       return_hash= {}
       work_hash = {}
       challenge_response = ""
