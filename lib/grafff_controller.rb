@@ -21,14 +21,14 @@ module Grafff
       if request.cookies["fbs_#{key}"].blank?
         return nil
       else
-        cookie = request.cookies["fbs_#{key}"]
+        cookie = CGI::unescape(request.cookies["fbs_#{key}"])
       end
 
       return_hash= {}
       work_hash = {}
       challenge_response = ""
       cookie.split("&").each do |split|
-        value = split.split("=")
+	value = split.split("=")
         if value[0] == "sig"
           challenge_response = value[1].gsub(/\"/,"")
         else
