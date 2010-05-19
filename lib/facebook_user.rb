@@ -63,6 +63,9 @@ class FacebookUser
     end
     return @user_profile_pictures
   end
+  def wallpost(options = {})
+    FacebookRequest.new.wallpost(self.access_token, options)
+  end
 end
 
 class FacebookRequest
@@ -77,6 +80,10 @@ class FacebookRequest
   end
   def get_albums(access_token)
     self.class.get("https://graph.facebook.com/me/albums?access_token=#{CGI.escape(access_token)}&metadata=1")
+  end
+  def wallpost(access_token, options = {})
+    query = {:body => options.merge({:access_token => access_token})}
+    self.class.post("https://graph.facebook.com/me/feed", query)
   end
   def get_profile_pictures(access_token,user_id)
     query = "SELECT src_small, src_big FROM photo where aid IN (SELECT aid FROM album WHERE owner = #{user_id} AND type = 'profile')"
