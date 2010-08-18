@@ -15,11 +15,14 @@ module Grafff
         false
       end
     end
-    def extract_fb_info
+    def require_facebook_user
+			get_facebook_user
+		end
+		def extract_fb_info
 			app_id = facebook_credentials[:app_id]
       key = facebook_credentials[:api_key]
       secret = facebook_credentials[:secret]
-      unless cookie = cookies["fbs_#{app_id}"]
+      unless cookie = cookies["fbs_#{app_id}"] || cookies["fbs_#{key}"]
       	return nil
       end
       return_hash= {}
