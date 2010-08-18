@@ -16,16 +16,17 @@ module Grafff
       end
     end
     def extract_fb_info
+			app_id = facebook_credentials[:app_id]
       key = facebook_credentials[:api_key]
       secret = facebook_credentials[:secret]
-      unless cookie = cookies["fbs_#{key}"]
+      unless cookie = cookies["fbs_#{app_id}"]
       	return nil
       end
       return_hash= {}
       work_hash = {}
       challenge_response = ""
       cookie.split("&").each do |split|
-	value = split.split("=")
+			value = split.split("=")
         if value[0] == "sig"
           challenge_response = value[1].gsub(/\"/,"")
         else
@@ -44,11 +45,13 @@ module Grafff
     def facebook_credentials
       if FACEBOOK_API_KEY.is_a?(Hash)
         {
-          :api_key => FACEBOOK_API_KEY[@grafff_locale || "en-US"],
+          :app_id => FACEBOOK_APP_ID[@grafff_locale || "en-US"],
+					:api_key => FACEBOOK_API_KEY[@grafff_locale || "en-US"],
           :secret => FACEBOOK_SECRET[@grafff_locale || "en-US"]
         }
       else
         {
+					:app_id => FACEBOOK_APP_ID,
           :api_key => FACEBOOK_API_KEY,
           :secret => FACEBOOK_SECRET
         }
