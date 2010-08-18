@@ -10,7 +10,7 @@ clone the repository
 build the gem 
   gem build grafff.gemspec
 install the gemgem (this will also install httparty and all it´s dependencies if you don´t have that installed already)
-  gem install grafff-0.0.1.gem
+  gem install grafff-0.0.3.gem
 
 == Usage
 
@@ -19,16 +19,22 @@ in your environment.rb put
      config.gem "grafff"
 
 you will need to create two constants
-  FACEBOOK_API_KEY
+  FACEBOOK_APP_ID
+	FACEBOOK_API_KEY
   FACEBOOK_SECRET
 
 these can be either hashes (for international apps that require different facebook apps for different locales) or strings
 
 if you only use one facebook app
+	FACEBOOK_APP_ID = 'yourfacebookapplicationidhere'
   FACEBOOK_API_KEY = 'yourfacebookapikeyhere'
   FACEBOOK_SECRET = 'yourfacebooksecrethere'
 
 if you use multiple facebook apps
+	FACEBOOK_APP_ID = {
+		"en-US" => 'yourfacebookapplicationidhere',
+		"en-GB" => 'yourfacebookapplicationidhere'
+	}
   FACEBOOK_API_KEY = {
   	"en-US" => 'yourfacebookapikeyhere',
 	"en-GB" => 'yourfacebookapikeyhere'
@@ -43,7 +49,7 @@ this can be done with a before filter for example. just make sure you use the be
 (this behaviour is likely to change soon because it´s pretty clumsy the way it is)
 
 now you can use
-  before_filter :require_facebook_user
+  before_filter :get_facebook_user
 in all the controllers you want to access the facebook user
 
 this will give you the instance variable @facebook_user which is either nil or contains a FacebookUser. See
