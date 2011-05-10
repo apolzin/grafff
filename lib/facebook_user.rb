@@ -54,6 +54,9 @@ class FacebookUser
     end
     return @user_albums
   end
+  def upload_profile_picture(options = {})
+    FacebookRequest.new.upload_profile_picture(self.access_token, self.uid, options)
+  end
   def profile_pictures
     get_profile_pictures
   end
@@ -70,8 +73,8 @@ end
 
 class FacebookRequest
   require 'rubygems'
-  require 'httparty'
-  include HTTParty
+  require 'httmultiparty'
+  include HTTMultiParty
   def get_userdata(access_token)
     self.class.get("https://graph.facebook.com/me?access_token=#{CGI.escape(access_token)}&locale=en_US")
   end
@@ -84,6 +87,10 @@ class FacebookRequest
   def wallpost(access_token, options = {})
     query = {:body => options.merge({:access_token => access_token})}
     self.class.post("https://graph.facebook.com/me/feed", query)
+  end
+  def upload_profile_picture(access_token, user_id, options)
+    query = {:body => options.merge({:access_token => access_token})}
+    self.class.post("https://graph.facebook.com/#{user_id}/photos", query)
   end
   def get_profile_pictures(access_token,user_id)
     query = "SELECT src_small, src_big FROM photo where aid IN (SELECT aid FROM album WHERE owner = #{user_id} AND type = 'profile')"

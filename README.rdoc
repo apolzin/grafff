@@ -9,7 +9,7 @@ clone the repository
   git clone http://github.com/apolzin/grafff.git
 build the gem 
   gem build grafff.gemspec
-install the gemgem (this will also install httparty and all it´s dependencies if you don´t have that installed already)
+install the gemgem (this will also install httmultiparty and all it´s dependencies if you don´t have that installed already)
   gem install grafff-0.0.3.gem
 
 == Usage
